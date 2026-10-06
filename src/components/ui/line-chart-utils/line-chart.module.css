@@ -1,0 +1,257 @@
+/* Styles for the LineChart component (see статистика.txt).
+   Colors come from the CSS variables defined in index.css (light + .dark). */
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--foreground);
+  letter-spacing: var(--tracking-body);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  min-height: 32px;
+  transition: background var(--duration-fast) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-standard);
+}
+.toggle:hover {
+  background: color-mix(in srgb, var(--foreground) 7%, transparent);
+}
+.toggle[aria-pressed="false"] {
+  opacity: 0.45;
+}
+
+.swatch {
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--series);
+  flex: none;
+}
+.swatch[data-dashed] {
+  background: repeating-linear-gradient(90deg, var(--series) 0 4px, transparent 4px 7px);
+}
+
+.toggleLabel {
+  font-weight: 500;
+}
+
+.chart {
+  position: relative;
+}
+.chart[data-loading] .plot {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.plot {
+  position: relative;
+  touch-action: none;
+  cursor: crosshair;
+  border-radius: 12px;
+}
+.plot:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.grid {
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+}
+.baseline {
+  stroke: var(--border-strong);
+  stroke-width: 1;
+}
+.crosshair {
+  stroke: var(--border-strong);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0;
+  transition: opacity var(--duration-instant) var(--ease-standard);
+}
+.chart[data-scrubbing] .crosshair {
+  opacity: 1;
+}
+
+.series path {
+  fill: none;
+  stroke: var(--series);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.line[data-dashed] {
+  stroke-dasharray: 5 4;
+}
+
+.area {
+  fill: color-mix(in srgb, var(--series) 13%, transparent);
+  stroke: none;
+}
+
+.dot {
+  fill: var(--surface);
+  stroke: var(--series);
+  stroke-width: 2;
+  opacity: 0;
+  transition: opacity var(--duration-instant) var(--ease-standard);
+}
+.chart[data-scrubbing] .dot:not([data-hidden]) {
+  opacity: 1;
+}
+
+.tooltip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-floating);
+  padding: 8px 12px;
+  font-size: var(--text-xs);
+  min-width: 140px;
+  opacity: 0;
+  transition: opacity var(--duration-instant) var(--ease-standard);
+}
+.chart[data-scrubbing] .tooltip {
+  opacity: 1;
+}
+
+.tipTitle {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: var(--foreground);
+  white-space: nowrap;
+}
+.tipRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 2px 0;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.tipSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--series);
+  flex: none;
+}
+.tipSwatch[data-dashed] {
+  background: repeating-linear-gradient(90deg, var(--series) 0 3px, transparent 3px 5px);
+}
+.tipName {
+  flex: 1;
+  padding-right: 8px;
+}
+.tipValue {
+  font-weight: 600;
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+.message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.skeleton {
+  position: absolute;
+  inset: 12% 4%;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--border-subtle), var(--border), var(--border-subtle));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.gutter {
+  position: relative;
+  height: 0;
+}
+.tick {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  transform-origin: right center;
+  pointer-events: none;
+}
+.tickText {
+  display: inline-block;
+  transform: translateY(-50%);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  padding: 1px 6px;
+  border-radius: 6px;
+}
+
+.axis {
+  position: relative;
+  height: 20px;
+  margin-top: 6px;
+}
+.axisLabel {
+  position: absolute;
+  top: 2px;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

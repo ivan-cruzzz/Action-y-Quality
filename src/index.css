@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Design tokens — Action & Quality (Flushing Pink 13-2705 TCX, Apple style) ===== */
+:root {
+  /* Tokens consumed by the LineChart component (from статистика.txt) */
+  --background: #ffffff;
+  --foreground: #3d1b2e;
+  --accent: #ec6fa0;
+  --border: #f2d7e4;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --text-secondary: #8a5570;
+  --text-muted: #96687e;
+  --border-subtle: #faecf3;
+  --border-strong: #e5b8cd;
+  --shadow-floating: 0 20px 48px rgba(61, 27, 46, 0.1), 0 3px 10px rgba(61, 27, 46, 0.045);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --radius-pill: 9999px;
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --tracking-body: -0.01em;
+  --leading-body: 1.4;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: linear(
+    0, 0.0258, 0.09, 0.1763, 0.2732, 0.3724, 0.4683, 0.5573, 0.6376, 0.7082,
+    0.7689, 0.8202, 0.8628, 0.8976, 0.9256, 0.9476, 0.9648, 0.9778, 0.9875,
+    0.9945, 0.9994, 1.0026, 1.0047, 1.0058, 1.0062, 1.0062, 1.0059, 1.0055,
+    1.0049, 1.0043, 1.0036, 1.0031, 1.0025, 1.002, 1.0016, 1.0013, 1
+  );
+  --duration-instant: 120ms;
+  --duration-fast: 160ms;
+  --duration-standard: 240ms;
+  --duration-considered: 480ms;
+
+  /* App-level tokens */
+  --aq-background: #fdf3f8;
+  --aq-foreground: #3d1b2e;
+  --aq-secondary: #8a5570;
+  --aq-accent-rgb: 236 111 160;
+  --aq-accent: rgb(var(--aq-accent-rgb));
+  --aq-accent-pressed: #d4507f;
+  --aq-card: rgba(255, 255, 255, 0.72);
+  --aq-card-border: rgba(255, 255, 255, 0.55);
+  --aq-ring: rgba(236, 111, 160, 0.35);
+}
+
+.dark {
+  --background: #170a11;
+  --foreground: #fbeef5;
+  --accent: #f49ac1;
+  --border: #452034;
+  --surface: #2a1220;
+  --surface-raised: #331828;
+  --text-secondary: #e3b9cd;
+  --text-muted: #c295ab;
+  --border-subtle: #38192a;
+  --border-strong: #5c2d45;
+  --shadow-floating: 0 20px 48px rgba(0, 0, 0, 0.45), 0 3px 10px rgba(0, 0, 0, 0.35);
+
+  --aq-background: #170a11;
+  --aq-foreground: #fbeef5;
+  --aq-secondary: #e3b9cd;
+  --aq-accent-rgb: 244 154 193;
+  --aq-card: rgba(60, 25, 45, 0.6);
+  --aq-card-border: rgba(255, 255, 255, 0.14);
+  --aq-ring: rgba(244, 154, 193, 0.3);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--aq-foreground);
+  background-color: var(--aq-background);
+  letter-spacing: var(--tracking-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+  /* Nothing may escape the window frame horizontally. */
+  overflow-x: clip;
+  /* Standalone app mode: clear the OS status bar and gesture bar. */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* The app-wide flushing-pink gradient; the mood screen overlays its own
+   mood gradient on top. Gradients don't transition, so theme switches crossfade
+   the glass surfaces instead. */
+.app-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background: linear-gradient(180deg, #f9d7e8 0%, #fdedf4 55%, #fff9fc 100%);
+}
+.dark .app-gradient {
+  background: linear-gradient(180deg, #3a1226 0%, #24101c 55%, #170a11 100%);
+}
+
+@layer components {
+  .glass {
+    background: var(--aq-card);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    backdrop-filter: blur(24px) saturate(1.5);
+    border: 1px solid var(--aq-card-border);
+    border-radius: 20px;
+    transition: background-color 0.45s var(--ease-standard),
+      border-color 0.45s var(--ease-standard);
+  }
+  .glass-pill {
+    background: var(--aq-card);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    backdrop-filter: blur(24px) saturate(1.5);
+    border: 1px solid var(--aq-card-border);
+    border-radius: 9999px;
+    transition: background-color 0.45s var(--ease-standard),
+      border-color 0.45s var(--ease-standard);
+  }
+  .tappable {
+    transition: transform var(--duration-fast) var(--ease-standard);
+  }
+  .tappable:active {
+    transform: scale(0.96);
+  }
+}
+
+/* Seasonal themes (premium): accent + gradient overrides. */
+html.season-mint {
+  --aq-accent-rgb: 59 191 163;
+  --aq-accent: #3bbfa3;
+  --accent: #3bbfa3;
+}
+html.season-mint .app-gradient {
+  background: linear-gradient(180deg, #c9f2e6 0%, #e6faf3 55%, #f7fffc 100%);
+}
+html.dark.season-mint .app-gradient {
+  background: linear-gradient(180deg, #0d2f28 0%, #0a1f1b 55%, #071412 100%);
+}
+
+html.season-lilac {
+  --aq-accent-rgb: 155 123 216;
+  --aq-accent: #9b7bd8;
+  --accent: #9b7bd8;
+}
+html.season-lilac .app-gradient {
+  background: linear-gradient(180deg, #e3d9f7 0%, #f0eafb 55%, #fbf9ff 100%);
+}
+html.dark.season-lilac .app-gradient {
+  background: linear-gradient(180deg, #221438 0%, #170e28 55%, #10091b 100%);
+}
+
+html.season-sunset {
+  --aq-accent-rgb: 249 115 98;
+  --aq-accent: #f97362;
+  --accent: #f97362;
+}
+html.season-sunset .app-gradient {
+  background: linear-gradient(180deg, #ffd9cd 0%, #ffece5 55%, #fff8f5 100%);
+}
+html.dark.season-sunset .app-gradient {
+  background: linear-gradient(180deg, #3a1610 0%, #27100c 55%, #180a08 100%);
+}
+
+/* Focus visibility for keyboard users */
+:focus-visible {
+  outline: 3px solid var(--aq-ring);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Respect reduced motion for all CSS-driven animation */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

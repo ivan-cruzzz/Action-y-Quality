@@ -1,0 +1,34 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+
+# Capacitor
+android
+ios
+
+# Tauri
+src-tauri/target
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# локальные данные и секреты
+bot/state.json
+supabase/seed-quotes.json
+release/
+dist-offline/
+docs/screenshots/*-light.png
+
+# внутренние материалы
+.zcode/
+промпт.md
+public/icon-preview.html
+bot/state.json
+промпт.md

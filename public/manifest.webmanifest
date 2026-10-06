@@ -1,0 +1,49 @@
+{
+  "name": "Action & Quality",
+  "short_name": "A&Q",
+  "description": "Приложение против лени и за дисциплину: настроение → цитата → привычки → фокус.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F9D7E8",
+  "theme_color": "#F9D7E8",
+  "lang": "ru",
+  "categories": [
+    "health",
+    "lifestyle",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Настроение",
+      "short_name": "Настроение",
+      "url": "/mood"
+    },
+    {
+      "name": "Привычки",
+      "short_name": "Привычки",
+      "url": "/habits"
+    },
+    {
+      "name": "Аркада",
+      "short_name": "Аркада",
+      "url": "/games"
+    }
+  ]
+}
